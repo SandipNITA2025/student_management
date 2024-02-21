@@ -19,7 +19,7 @@ const getStudentsController = async (req, res) => {
     if (req.query.paymentStatus) {
       query.paymentStatus = req.query.paymentStatus;
     }
-    const students = await Student.find(query);
+    const students = await Student.find(query).sort({ createdAt: -1 });
     res.send(students);
   } catch (err) {
     res.status(400).send(err);
