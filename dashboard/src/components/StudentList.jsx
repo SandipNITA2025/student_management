@@ -2,11 +2,13 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { MdEdit, MdDeleteOutline } from "react-icons/md";
+import { RiLoader2Line } from "react-icons/ri";
 import { BASE_URL } from "../api/url";
 import { ImFileEmpty } from "react-icons/im";
 import StudentForm from "./StudentForm";
 
 const StudentList = ({
+  isLoading,
   students,
   fetchStudents,
   isModelOpen,
@@ -98,7 +100,16 @@ const StudentList = ({
 
         {students?.length === 0 ? (
           <div className="h-full absolute w-full flex items-center justify-center top-[200px] gap-2 text-[14px] text-gray-400">
-            <ImFileEmpty /> No data Found
+            {isLoading ? (
+              <>
+                <RiLoader2Line size={20} className="animate-spin" />
+                Loading...
+              </>
+            ) : (
+              <>
+                <ImFileEmpty /> No data Found
+              </>
+            )}
           </div>
         ) : (
           <tbody className="">

@@ -12,6 +12,7 @@ import { BASE_URL } from "../api/url";
 const Dashboard = () => {
   const { reset } = useForm();
   const [students, setStudents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({});
   const [isModelOpen, setIsModelOpen] = useState(false);
@@ -21,10 +22,17 @@ const Dashboard = () => {
   }, []);
 
   const fetchStudents = async () => {
-    // Fetch students data
-    const response = await axios.get(`${BASE_URL}/api/get_students`);
-    const data = await response.data;
-    setStudents(data);
+    setIsLoading(true);
+    try {
+      // Fetch students data
+      const response = await axios.get(`${BASE_URL}/api/get_students`);
+      const data = await response.data;
+      setStudents(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSearch = (query) => {
@@ -139,6 +147,7 @@ const Dashboard = () => {
         )}
       </div>
       <StudentList
+        isLoading={isLoading}
         isModelOpen={isModelOpen}
         setIsModelOpen={setIsModelOpen}
         fetchStudents={fetchStudents}
